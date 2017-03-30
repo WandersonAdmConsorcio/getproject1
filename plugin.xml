@@ -19,16 +19,6 @@
                 <param name="android-package" value="com.borismus.webintent.WebIntent"/>
             </feature>
 			
-			<activity android:name="com.borismus.webintent.WebIntent" android:label="WebIntent">
-			<intent-filter>
-			
-			  <action android:name="com.borismus.webintent.WebIntent" />
-			  <category android:name="android.intent.category.DEFAULT" />
-			  
-			</intent-filter>
-		  </activity>
-			
-			
         </config-file>
 		
 		
