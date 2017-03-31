@@ -34,6 +34,8 @@ public class WebIntent extends CordovaPlugin {
 	private CordovaPlugin activityResultCallback;
     private CallbackContext callbackContextCurrent;
 	
+	private static final String EXTRA_ID_CONFIRMACAO = "br.com.auttar.mobile.ctfclient.intent.extra.ID";
+	
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         try {
@@ -220,7 +222,7 @@ public class WebIntent extends CordovaPlugin {
 				String token = intent.getStringExtra("br.com.auttar.mobile.ctfclient.intent.extra.TOKEN");
 				boolean confirmacaoAutomatica = intent.getBooleanExtra("br.com.auttar.mobile.ctfclient.intent.extra.CONFIRMACAO_AUTOMATICA", false);
 				boolean confirmacaoRemota = intent.getBooleanExtra("br.com.auttar.mobile.ctfclient.intent.extra.CONFIRMACAO_REMOTA", false);
-				long idConfirmacao = intent.getLongExtra("br.com.auttar.mobile.ctfclient.intent.extra.ID", -1);
+				long idConfirmacao = intent.getLongExtra(EXTRA_ID_CONFIRMACAO, -1);
 				int nsuCTF = intent.getIntExtra("br.com.auttar.mobile.ctfclient.intent.extra.NSU_CTF", -1);
 				long nsuAutorizadora = intent.getLongExtra("br.com.auttar.mobile.ctfclient.intent.extra.NSU_AUTORIZADORA", -1);
 				String codigoAprovacao = intent.getStringExtra("br.com.auttar.mobile.ctfclient.intent.extra.COD_APROVACAO");
@@ -332,21 +334,34 @@ public class WebIntent extends CordovaPlugin {
 					String key = extraNames.getString(i);
 					Object value = extras.get(key);
 					
-					if (value.getClass() == Boolean.class) {
-						intent.putExtra(key, ((Boolean) value).booleanValue());
-						
-					} else if (value.getClass() == String.class) {
-						intent.putExtra(key, ((String) value));
-						
-					} else if (value.getClass() == Integer.class) {
-						intent.putExtra(key, ((Integer) value).intValue());
-						
-					} else if (value.getClass() == Long.class) {
-						intent.putExtra(key, ((Long) value).longValue());
+					System.out.print(key);
+					
+					if (EXTRA_ID_CONFIRMACAO.equals(key)) {
+						System.out.println(" - FIXO LONG");
+						intent.putExtra(key, new Long(((Integer) value).intValue()).longValue());
 						
 					} else {
-						System.out.println("Tipo de entrada não identificado, o abributo será descartado! KEY " + key + ", VALUE " + value);
+						if (value.getClass() == Boolean.class) {
+							System.out.println(" - BOOLEAN");
+							intent.putExtra(key, ((Boolean) value).booleanValue());
+							
+						} else if (value.getClass() == String.class) {
+							System.out.println(" - STRING");
+							intent.putExtra(key, ((String) value));
+							
+						} else if (value.getClass() == Integer.class) {
+							System.out.println(" - INTEGER");
+							intent.putExtra(key, ((Integer) value).intValue());
+							
+						} else if (value.getClass() == Long.class) {
+							System.out.println(" - LONG");
+							intent.putExtra(key, ((Long) value).longValue());
+							
+						} else {
+							System.out.println("Tipo de entrada não identificado, o abributo será descartado! KEY " + key + ", VALUE " + value);
+						}
 					}
+					
 				} catch (JSONException e) {
 					System.out.println("Erro ao criar o objeto de retorno JSON: " + e.getMessage());
 					e.printStackTrace();
