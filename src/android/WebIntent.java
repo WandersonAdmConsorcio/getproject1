@@ -283,8 +283,8 @@ public class WebIntent extends CordovaPlugin {
     }
 	
 	private String converteArrayString(String[] array) {
-		System.out.println("Tamanho array: " + array.length);
 		if (array != null) {
+			System.out.println("Tamanho array: " + array.length);
 			String result = null;
 			for (int i = 0; i < array.length; i++) {
 				if (result != null) {
@@ -296,6 +296,8 @@ public class WebIntent extends CordovaPlugin {
 				}
 			}
 			return result;
+		} else {
+			System.out.println("array: nulo");
 		}
 		return null;
 	}
